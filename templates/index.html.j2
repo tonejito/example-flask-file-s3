@@ -1,0 +1,115 @@
+{# HTML jinja template for the Flask image tool #}
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8" />
+{# #}
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+{# #}
+    <title>File application - {{ deployment_type }}</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64," />
+    <link rel="stylesheet" type="text/css" href="static/style.css" />
+    <script type="text/javascript" src="static/script.js"></script>
+  </head>
+  <body>
+    <div>
+      <h1>File manager</h1>
+      Serving files from <b>{{ deployment_type }}</b> storage.
+      <hr/>
+{# Reload button #}
+      <div id="reload">
+        <div><b>Reload page</b></div>
+        <div>
+          <button type="button" class="button button-reload" onclick="window.location.reload();">Reload</button>
+        </div>
+      </div>
+      <hr/>
+{# Write the file upload form #}
+      <div id="upload">
+        <div><b>Upload new File</b></div>
+{# #}
+        <div id="file-upload-form">
+          <form action="upload" method="POST" enctype="multipart/form-data">
+            <span>
+              <input type="file" name="file" id="file" accept="image/*" />
+            </span>
+            <span>
+              <input class="button button-upload" type="submit" value="Upload" />
+            </span>
+          </form>
+        </div>
+{# #}
+{#
+        <div id="file-upload-xhr">
+          <span>
+            <input type="file" name="file" id="file" accept="image/*" />
+          </span>
+          <span>
+            <button class="button button-upload" type="button" onclick="upload_image();">Upload</button>
+          </span>
+        </div>
+#}
+      </div>
+      <hr/>
+{# Write the directory listing #}
+      <div id="listing">
+        <div><b>Directory listing</b></div>
+        <div>
+            <table>
+              <thead>
+                <tr>
+                    <th colspan="3">
+                    {% if not (items | length) %}
+                      Directory is empty. Please upload an image.
+                    {% endif %}
+                    </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                <tr>
+                    <td class="file">
+                        <a href="view/{{ item }}">{{ item }}</a>
+                    </td>
+                    <td>
+                        <span>
+                          <button class="button button-view" type="button" onclick="load_image('{{ item }}')">View</button>
+                        </span>
+                    </td>
+                    <td class="delete">
+{#
+                        <span>
+                          <button class="button button-delete" type="button" onclick="delete_image('{{ item }}')">Delete</button>
+                        </span>
+#}
+{# #}
+                        <span>
+                          <form action="delete" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" id="filename" name="filename" value="{{ item }}" />
+                            <input class="button button-delete" type="submit" value="Delete" />
+                          </form>
+                        </span>
+{# #}
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+      </div>
+      <hr/>
+{# Write the image container #}
+      <div id="image-wrapper" class="image-wrapper">
+        <div><b>View image</b></div>
+        <div id="image-container" class="image-container">
+        {% if items | length %}
+          <img id="image" class="image" src="" alt="Select an image to display it.">
+        {% else %}
+          <img id="image" class="image" src="" alt="Please upload an image.">
+        {% endif %}
+        </div>
+      </div>
+{# END TEMPLATE #}
+    </div>
+  </body>
+</html>
