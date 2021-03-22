@@ -1,0 +1,10 @@
+---
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+metadata:
+  name: image-tool-obc
+  namespace: image-tool
+spec:
+  generateBucketName: "image-tool-noobaa"
+  # storageClassName: ocs-storagecluster-ceph-rgw
+  storageClassName: openshift-storage.noobaa.io

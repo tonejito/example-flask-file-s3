@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: image-tool-local
+  name: image-tool-local
+spec:
+  ports:
+  - name: image-tool-local
+    port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: image-tool-local
+  type: LoadBalancer
+status:
+  loadBalancer: {}

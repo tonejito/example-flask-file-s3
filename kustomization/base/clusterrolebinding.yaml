@@ -1,0 +1,94 @@
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: system:openshift:scc:anyuid
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: system:openshift:scc:anyuid
+# subjects:
+# - kind: ServiceAccount
+#   name: example
+#   namespace: image-tool
+# - kind: ServiceAccount
+#   name: image-tool
+#   namespace: image-tool
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: system:openshift:scc:privileged
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: system:openshift:scc:privileged
+# subjects:
+# - kind: ServiceAccount
+#   name: image-tool
+#   namespace: image-tool
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: system:openshift:scc:restricted
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:openshift:scc:restricted
+subjects:
+- kind: ServiceAccount
+  name: image-tool
+  namespace: image-tool
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: system:openshift:scc:nonroot
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: system:openshift:scc:nonroot
+# subjects:
+# - kind: ServiceAccount
+#   name: image-tool
+#   namespace: image-tool
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: system:openshift:scc:hostaccess
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: system:openshift:scc:hostaccess
+# subjects:
+# - kind: ServiceAccount
+#   name: image-tool
+#   namespace: image-tool
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: system:openshift:scc:hostmount-anyuid
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: system:openshift:scc:hostmount-anyuid
+# subjects:
+# - kind: ServiceAccount
+#   name: image-tool
+#   namespace: image-tool
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRoleBinding
+# metadata:
+#   name: system:openshift:scc:hostnetwork
+# roleRef:
+#   apiGroup: rbac.authorization.k8s.io
+#   kind: ClusterRole
+#   name: system:openshift:scc:hostnetwork
+# subjects:
+# - kind: ServiceAccount
+#   name: image-tool
+#   namespace: image-tool

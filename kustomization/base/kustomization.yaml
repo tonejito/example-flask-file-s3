@@ -1,0 +1,8 @@
+---
+namespace: image-tool
+commonLabels:
+  app: image-tool
+resources:
+- serviceaccount.yaml
+- clusterrolebinding.yaml
+

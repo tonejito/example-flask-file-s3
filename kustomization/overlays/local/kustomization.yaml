@@ -1,0 +1,11 @@
+---
+bases:
+- ../../base
+namespace: image-tool
+commonLabels:
+  app: image-tool
+resources:
+- pvc-local.yaml
+- deployment-local.yaml
+- service-local.yaml
+- route-local.yaml

@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: image-tool-s3
+  name: image-tool-s3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-tool-s3
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: image-tool-s3
+    spec:
+      containers:
+      - name: image-tool-s3
+        image: quay.io/tonejito/image-tool:latest
+        ports:
+        - containerPort: 5000
+        resources: {}
+        envFrom:
+        - configMapRef:
+            name: image-tool-s3
+        - secretRef:
+            name: image-tool-s3
+      securityContext: {}
+      serviceAccount: image-tool
+      serviceAccountName: image-tool

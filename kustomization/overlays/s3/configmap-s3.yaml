@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: image-tool-s3
+  namespace: image-tool
+data:
+  AWS_DEFAULT_REGION: us-east-1
+  BUCKET_NAME: s3-bucket-name

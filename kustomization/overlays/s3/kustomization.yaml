@@ -1,0 +1,12 @@
+---
+bases:
+- ../../base
+namespace: image-tool
+commonLabels:
+  app: image-tool
+resources:
+- configmap-s3.yaml
+- secret-s3.yaml
+- deployment-s3.yaml
+- service-s3.yaml
+- route-s3.yaml

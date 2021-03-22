@@ -1,0 +1,11 @@
+---
+bases:
+- ../../base
+namespace: image-tool
+commonLabels:
+  app: image-tool
+resources:
+- obc.yaml
+- deployment-s3-obc.yaml
+- service-s3-obc.yaml
+- route-s3-obc.yaml
