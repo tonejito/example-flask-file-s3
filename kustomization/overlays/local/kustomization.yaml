@@ -5,6 +5,7 @@ namespace: image-tool
 commonLabels:
   app: image-tool
 resources:
+- clusterrolebinding.yaml
 - pvc-local.yaml
 - deployment-local.yaml
 - service-local.yaml
