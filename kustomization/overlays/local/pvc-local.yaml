@@ -5,7 +5,8 @@ metadata:
   name: image-tool
 spec:
   accessModes:
-  - ReadWriteOnce
+  # - ReadWriteOnce
+  - ReadWriteMany
   # storageClassName: nfs-storage
   storageClassName: ocs-storagecluster-cephfs
   resources:
