@@ -1,0 +1,10 @@
+---
+bases:
+- ../../base
+namespace: image-tool
+commonLabels:
+  app: image-tool
+resources:
+- deployment-ephemeral.yaml
+- service-ephemeral.yaml
+- route-ephemeral.yaml

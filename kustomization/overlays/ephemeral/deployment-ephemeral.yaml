@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: image-tool-ephemeral
+  name: image-tool-ephemeral
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: image-tool-ephemeral
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: image-tool-ephemeral
+    spec:
+      containers:
+      - name: image-tool-ephemeral
+        image: quay.io/tonejito/image-tool:latest
+        ports:
+        - containerPort: 5000
+        resources: {}
+      securityContext: {}
+      serviceAccount: image-tool
+      serviceAccountName: image-tool
