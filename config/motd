@@ -1,0 +1,14 @@
+Flask example application
+
+If your storage type is LOCAL
+You can list the files in the ${FLASK_DIR}/storage directory:
+(defaults to /opt/storage)
+
+If your storage type is S3
+You can run awscli to view the files stored in the backend:
+
+aws s3 ls s3://${BUCKET_NAME} --endpoint-url "http://${BUCKET_HOST}"
+
+Check the ${HOME}/.aws/config file to view the necesary settings to enable the
+awscli-plugin-endpoint and disable the use of the --endpoint-url argument.
+

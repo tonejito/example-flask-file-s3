@@ -2,6 +2,13 @@
 
 FROM python:3.8-alpine AS base
 
+ENV ENV=/etc/profile \
+    HOME=/root
+COPY config/motd /etc/motd
+RUN echo "cat /etc/motd" > /etc/profile.d/motd.sh
+
+FROM base AS app
+
 ENV FLASK_APP=app.py \
     FLASK_ENV=development \
     FLASK_DIR=/opt \
