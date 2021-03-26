@@ -23,6 +23,7 @@ WORKDIR ${FLASK_DIR}
 COPY app.py requirements.txt ${FLASK_DIR}
 COPY static/ ${FLASK_DIR}/static/
 COPY templates/ ${FLASK_DIR}/templates/
+COPY config/awscli ${HOME}/.aws/config
 
 RUN mkdir -vp ${UPLOAD_FOLDER} && \
     chmod -c a+rx,ug+ws,o-w ${UPLOAD_FOLDER} && \

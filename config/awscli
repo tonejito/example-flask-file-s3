@@ -1,0 +1,7 @@
+[default]
+region = us-east-1
+s3 =
+    endpoint_url = https://s3.openshift-storage.svc/
+
+[plugins]
+endpoint = awscli_plugin_endpoint
