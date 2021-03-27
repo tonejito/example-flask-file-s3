@@ -1,12 +1,12 @@
 # Containerfile for the Flask image tool
 
-FROM python:3.8-alpine AS base
+FROM registry.access.redhat.com/ubi8/python-38 AS base
 
 USER root
-ENV ENV=/etc/profile \
-    HOME=/root
+
+
 COPY config/motd /etc/motd
-RUN echo "cat /etc/motd" > /etc/profile.d/motd.sh
+RUN echo "cat /etc/motd" >> /opt/app-root/src/.bashrc
 
 FROM base AS app
 
@@ -14,17 +14,17 @@ USER root
 
 ENV FLASK_APP=app.py \
     FLASK_ENV=development \
-    FLASK_DIR=/opt \
+    FLASK_DIR=${HOME} \
     HOST=0.0.0.0 \
-    PORT=5000
-ENV UPLOAD_FOLDER=${FLASK_DIR}/storage
+    PORT=5000 \
+    UPLOAD_FOLDER=/var/storage
 
 EXPOSE ${PORT}
 WORKDIR ${FLASK_DIR}
 
 RUN mkdir -vp ${UPLOAD_FOLDER} && \
     chmod -c a+rx,ug+ws,o-w ${UPLOAD_FOLDER} && \
-    chown -cR root:root ${UPLOAD_FOLDER}     
+    chown -cR default:root ${UPLOAD_FOLDER}     
 
 COPY requirements.txt ${FLASK_DIR}
 COPY app.py ${FLASK_DIR}
@@ -33,10 +33,10 @@ COPY templates/ ${FLASK_DIR}/templates/
 COPY config/awscli ${HOME}/.aws/config
 
 RUN pip config --global set global.progress_bar off && \
-    pip install --requirement requirements.txt
+    pip install --requirement requirements.txt && \
+    chown -R default:root ${HOME}
 
-
-
+USER default
 
 # CMD flask run --host=${HOST} --port ${PORT} --reload --no-debugger --eager-loading --with-threads
 CMD gunicorn app:app --bind ${HOST}:${PORT} --reload --preload --capture-output --log-level info --access-logfile - --error-logfile -
