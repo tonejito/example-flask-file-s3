@@ -24,7 +24,7 @@ spec:
         resources: {}
         volumeMounts:
         - name: image-tool-storage
-          mountPath: "/opt/storage"
+          mountPath: "/var/storage"
       volumes:
       - name: image-tool-storage
         persistentVolumeClaim:
