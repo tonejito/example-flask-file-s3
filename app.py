@@ -48,12 +48,15 @@ if None in [
     app.config["BUCKET_NAME"],
 ]:
     S3_SUPPORTED = False
-    app.config["DEPLOYMENT_TYPE"] = "local"
-    app.logger.info("Serving files from LOCAL storage")
+    # Check if we are using a mounted volume from a PVC or ephemeral storage
+    if os.path.ismount(app.config["UPLOAD_FOLDER"]):
+        app.config["DEPLOYMENT_TYPE"] = "local"
+    else:
+        app.config["DEPLOYMENT_TYPE"] = "ephemeral"
+
 else:
     S3_SUPPORTED = True
     app.config["DEPLOYMENT_TYPE"] = "S3"
-    app.logger.info("Serving files from S3 storage")
     # Check if NooBaa is enabled via environment variables
     if None in [
         app.config["BUCKET_HOST"],
@@ -63,9 +66,9 @@ else:
         S3 = boto3.client("s3")
     else:
         NOOBAA_ENABLED = True
-        app.config["DEPLOYMENT_TYPE"] = "NooBaa"
-        app.logger.info("NooBaa support is enabled")
         S3 = boto3.client("s3", endpoint_url=app.config["ENDPOINT_URL"])
+
+app.logger.info("Serving files from {} storage".format(str(app.config["DEPLOYMENT_TYPE"]).upper()))
 
 if not os.path.isdir(app.config["UPLOAD_FOLDER"]):
     app.logger.info("UPLOAD_FOLDER does not exist.")
@@ -106,17 +109,27 @@ def index():
     """
     Display the root of the website
     """
+    template = ""
     if S3_SUPPORTED:
         app.logger.info("S3: Listing bucket")
         listing = list_s3_objects()
+        template = flask.render_template(
+            "index.html.j2",
+            items=listing,
+            deployment_type=app.config["DEPLOYMENT_TYPE"],
+            bucket=app.config["BUCKET_NAME"],
+            endpoint=app.config["ENDPOINT_URL"],
+        )
     else:
         app.logger.info("LOCAL: Listing directory")
         listing = os.listdir(app.config["UPLOAD_FOLDER"])
-    return flask.render_template(
-        "index.html.j2",
-        items=listing,
-        deployment_type=app.config["DEPLOYMENT_TYPE"],
-    )
+        template = flask.render_template(
+            "index.html.j2",
+            items=listing,
+            deployment_type=app.config["DEPLOYMENT_TYPE"],
+            folder=app.config["UPLOAD_FOLDER"],
+        )
+    return template
 
 
 def list_s3_objects():
