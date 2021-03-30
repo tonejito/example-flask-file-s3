@@ -13,8 +13,8 @@ CONTAINER_PORT?=5000
 UPLOAD_FOLDER?=/tmp/storage
 ENV_FILE=.env
 
-# local s3 s3-obc
-TYPE?=local
+# ephemeral pvc s3 s3-obc
+TYPE?=pvc
 
 SCC?=
 SCC_LIST=anyuid hostaccess hostmount-anyuid hostnetwork nonroot privileged restricted

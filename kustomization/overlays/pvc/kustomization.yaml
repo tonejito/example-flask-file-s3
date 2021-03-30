@@ -6,7 +6,7 @@ commonLabels:
   app: image-tool
 resources:
 - clusterrolebinding.yaml
-- pvc-local.yaml
-- deployment-local.yaml
-- service-local.yaml
-- route-local.yaml
+- pvc.yaml
+- deployment-pvc.yaml
+- service-pvc.yaml
+- route-pvc.yaml

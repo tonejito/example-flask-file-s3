@@ -3,16 +3,16 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: image-tool-local
-  name: image-tool-local
+    app: image-tool-pvc
+  name: image-tool-pvc
 spec:
   ports:
-  - name: image-tool-local
+  - name: image-tool-pvc
     port: 80
     protocol: TCP
     targetPort: 5000
   selector:
-    app: image-tool-local
+    app: image-tool-pvc
   type: LoadBalancer
 status:
   loadBalancer: {}

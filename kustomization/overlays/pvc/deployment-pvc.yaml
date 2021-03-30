@@ -3,21 +3,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: image-tool-local
-  name: image-tool-local
+    app: image-tool-pvc
+  name: image-tool-pvc
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: image-tool-local
+      app: image-tool-pvc
   strategy: {}
   template:
     metadata:
       labels:
-        app: image-tool-local
+        app: image-tool-pvc
     spec:
       containers:
-      - name: image-tool-local
+      - name: image-tool-pvc
         image: quay.io/tonejito/image-tool:latest
         ports:
         - containerPort: 5000

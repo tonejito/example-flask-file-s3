@@ -13,7 +13,7 @@ This application requires **OpenShift Container Storage** to be installed and
 configured in the OCP cluster before deploying since it uses the following
 storage classes provided by OCS:
 
-- [`ocs-storagecluster-cephfs`](kustomization/overlays/local/pvc-local.yaml)
+- [`ocs-storagecluster-cephfs`](kustomization/overlays/pvc/pvc.yaml)
 - [`openshift-storage.noobaa.io`](kustomization/overlays/s3-obc/obc.yaml)
 
 For reference, [OpenShift Container Storage Operator][ocs-github] and
@@ -31,7 +31,7 @@ the OCP cluster:
 
 There is a [`kustomization`](kustomization) folder that contains all the
 resources needed to deploy the application in the three variants
-(`local`, `s3`, and `s3-obc`).
+(`ephemeral`, `pvc`, `s3`, and `s3-obc`).
 
 If the deployment type is `s3`, be sure to fill the appropriate details on the
 following files:
@@ -47,14 +47,14 @@ There is also a [`Makefile`](Makefile) that aids in deploying and cleaning up re
 ### Deploying via `make`
 
 ```
-$ make deploy [TYPE=<local|s3|s3-obc>]
+$ make deploy [TYPE=<ephemeral|pvc|s3|s3-obc>]
 ```
 
 ### Deploying via `oc`
 
 ```
 $ oc new project image-tool
-$ oc kustomize kustomization/overlays/local/ | oc apply -f -
+$ oc kustomize kustomization/overlays/pvc/ | oc apply -f -
 ```
 
 ## Test
@@ -62,11 +62,12 @@ $ oc kustomize kustomization/overlays/local/ | oc apply -f -
 Depending on the type of deployment used you can access the web interface in
 one of the following URLs:
 
-| `TYPE` | URL |
-|:------:|:----|
-| `local`  | <https://image-tool-local-image-tool.apps.ocp4.example.com/> |
-| `s3`     | <https://image-tool-s3-image-tool.apps.ocp4.example.com/> |
-| `s3-obc` | <https://image-tool-s3-obc-image-tool.apps.ocp4.example.com/> |
+| `TYPE`     | URL |
+|:----------:|:----|
+| `ephemeral`| <https://image-tool-ephemeral-image-tool.apps.ocp4.example.com/> |
+| `pvc`      | <https://image-tool-pvc-image-tool.apps.ocp4.example.com/> |
+| `s3`       | <https://image-tool-s3-image-tool.apps.ocp4.example.com/> |
+| `s3-obc`   | <https://image-tool-s3-obc-image-tool.apps.ocp4.example.com/> |
 
 The web page will tell you which storage type is being used.
 
@@ -75,7 +76,7 @@ The web page will tell you which storage type is being used.
 ### Cleanup via `make`
 
 ```
-$ make clean [TYPE=<local|s3|s3-obc>]
+$ make clean [TYPE=<ephemeral|pvc|s3|s3-obc>]
 ```
 
 ### Cleanup via `oc`
