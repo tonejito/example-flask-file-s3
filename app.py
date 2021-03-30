@@ -50,7 +50,7 @@ if None in [
     S3_SUPPORTED = False
     # Check if we are using a mounted volume from a PVC or ephemeral storage
     if os.path.ismount(app.config["UPLOAD_FOLDER"]):
-        app.config["DEPLOYMENT_TYPE"] = "local"
+        app.config["DEPLOYMENT_TYPE"] = "pvc"
     else:
         app.config["DEPLOYMENT_TYPE"] = "ephemeral"
 
@@ -121,7 +121,7 @@ def index():
             endpoint=app.config["ENDPOINT_URL"],
         )
     else:
-        app.logger.info("LOCAL: Listing directory")
+        app.logger.info("FILE: Listing directory")
         listing = os.listdir(app.config["UPLOAD_FOLDER"])
         template = flask.render_template(
             "index.html.j2",
@@ -172,7 +172,7 @@ def view(filename):
         return content
     else:
         full_filename = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        app.logger.info("LOCAL: Read: {}".format(full_filename))
+        app.logger.info("FILE: Read: {}".format(full_filename))
 
         if allowed_file(full_filename) and os.path.isfile(full_filename):
             # Check file hash before returning it
@@ -250,7 +250,7 @@ def upload():
             else:
                 new_filename = os.path.join(app.config["UPLOAD_FOLDER"], new_filename)
                 shutil.move(full_filename, new_filename)
-                app.logger.info("LOCAL: Write: {}".format(new_filename))
+                app.logger.info("FILE: Write: {}".format(new_filename))
         except Exception as e:
             app.logger.error("Can't open file for reading: {}".format(full_filename))
             app.logger.debug(e)
@@ -296,7 +296,7 @@ def delete():
 
 def delete_file(filename):
     """
-    Delete file from local storage
+    Delete file from FILE storage
     """
     full_filename = os.path.join(app.config["UPLOAD_FOLDER"], filename)
     try:
@@ -306,10 +306,10 @@ def delete_file(filename):
                 checksum = get_hash(uploaded_file.read())
                 if checksum == filename.split(".")[0].lower():
                     # Delete the file
-                    app.logger.info("LOCAL: Delete: {}".format(filename))
+                    app.logger.info("FILE: Delete: {}".format(filename))
                     os.remove(full_filename)
     except Exception as e:
-        app.logger.error("LOCAL: Unable to delete file: {}".format(filename))
+        app.logger.error("FILE: Unable to delete file: {}".format(filename))
         app.logger.debug(e)
 
 
